@@ -22,15 +22,16 @@
     background-image:linear-gradient(rgba(200,16,46,.05) 1px,transparent 1px),
       linear-gradient(90deg,rgba(200,16,46,.05) 1px,transparent 1px);
     background-size:44px 44px;}
-  header{position:relative; padding:52px 40px 0; border-bottom:2px solid var(--red);
+  header{position:relative; padding:22px 40px 0; border-bottom:2px solid var(--red);
     background:linear-gradient(180deg,rgba(200,16,46,.10),transparent 70%);}
   .hrow{display:flex; align-items:center; justify-content:space-between; padding-bottom:20px;}
-  .hublink{display:inline-flex;align-items:center;gap:7px;text-decoration:none;position:absolute;top:18px;left:40px;z-index:5;
+  .hublink{display:inline-flex;align-items:center;gap:7px;text-decoration:none;z-index:5;
     background:rgba(200,16,46,.12);border:1px solid rgba(200,16,46,.4);color:#f4eef0;
-    font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:7px 13px;border-radius:20px;transition:.15s;}
+    font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:7px 13px;border-radius:20px;transition:.15s;margin-bottom:16px;}
   .hublink:hover{background:rgba(200,16,46,.25);border-color:var(--red);}
   .hublink svg{width:13px;height:13px;stroke:var(--teal);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
-  .brand{display:flex; align-items:center; gap:18px;}
+  .brand{display:flex; align-items:center; gap:18px; min-width:0; flex:1;}
+  .titles{min-width:0;}
   .crest{height:66px; width:auto; flex:none;}
   .titles h1{font-size:32px; letter-spacing:1px; font-weight:800; line-height:1; font-style:italic; text-transform:uppercase;}
   .titles .sub{color:var(--muted); font-size:11px; letter-spacing:3px; text-transform:uppercase; margin-top:6px; font-weight:600;}
@@ -107,10 +108,42 @@
   .save button:hover{background:var(--red-lt);}
   .save button:disabled{opacity:.5; cursor:default;}
   .savenote{align-self:center; margin-right:14px; font-size:12px; color:#2a7d5f; font-weight:700;}
+  .restoreBtn{margin-left:auto;background:rgba(0,224,198,.12);color:var(--teal);border:1px solid rgba(0,224,198,.4);border-radius:8px;padding:8px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;cursor:pointer;transition:.15s}
+  .restoreBtn:hover{background:rgba(0,224,198,.24);border-color:var(--teal)}
+  .removerow{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);text-align:center}
+  #premove{background:transparent;color:#b0505f;border:1px solid #5a2530;border-radius:8px;padding:9px 16px;font-size:12px;font-weight:700;letter-spacing:.5px;cursor:pointer;transition:.15s}
+  #premove:hover{background:rgba(200,16,46,.14);border-color:var(--red);color:#ff5a72}
+  .modal-ov{position:fixed;inset:0;background:rgba(2,6,4,.78);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:24px}
+  .modal-ov.show{display:flex}
+  .modal{background:#141b18;border:1px solid var(--line);border-radius:16px;max-width:400px;width:100%;padding:26px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.6)}
+  .modal .warnicon{width:52px;height:52px;border-radius:50%;background:rgba(200,16,46,.14);border:1px solid rgba(200,16,46,.4);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:26px}
+  .modal h3{font-size:19px;font-weight:800;margin-bottom:8px}
+  .modal p{color:var(--muted);font-size:14px;line-height:1.55;margin-bottom:8px}
+  .modal .pn{color:#fff;font-weight:700}
+  .modal .sub2{font-size:12px;color:#7a8a92;margin-bottom:22px}
+  .modal-btns{display:flex;gap:10px}
+  .modal-btns button{flex:1;padding:12px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;border:1px solid var(--line)}
+  .mb-cancel{background:var(--panel2);color:var(--ink)}
+  .mb-cancel:hover{background:#1a2420}
+  .mb-remove{background:var(--red);color:#fff;border-color:var(--red)}
+  .mb-remove:hover{background:#e11d38}
   @media(max-width:600px){
-    header{padding:20px 18px 0;} .wrap{padding:20px 14px 60px;}
-    .titles h1{font-size:22px;} .count .num{font-size:26px;} .photo{width:40px;height:40px;}
+    header{padding:16px 16px 0;} .wrap{padding:20px 14px 60px;}
+    .hrow{align-items:flex-start; gap:12px;}
+    .brand{gap:12px;}
+    .crest{height:48px !important; width:auto !important; flex:none;}
+    .titles h1{font-size:19px; line-height:1.05;}
+    .titles .sub{font-size:10px; letter-spacing:1px; margin-top:4px;}
+    .count{flex:none;}
+    .count .lab{font-size:9px; letter-spacing:2px;}
+    .count .num{font-size:24px;}
+    .photo{width:40px;height:40px;}
     .focusrow{flex-direction:column;} .pitch{width:130px;height:182px;}
+  }
+  @media(max-width:380px){
+    .titles h1{font-size:16px;}
+    .titles .sub{font-size:9px; letter-spacing:.5px;}
+    .count .num{font-size:20px;}
   }
 </style>
 </head>
@@ -165,6 +198,7 @@
     <div class="field"><label>AREAS TO DEVELOP</label><textarea id="f_dev" placeholder="e.g. decision-making under pressure, left foot..."></textarea></div>
     <div class="field"><label>SCOUTING NOTES</label><textarea id="f_notes" placeholder="Matchday observations, coaching notes, standout moments..."></textarea></div>
     <div class="save"><span class="savenote" id="savenote"></span><button id="psave">SAVE PROFILE</button></div>
+    <div class="removerow"><button id="premove" onclick="removePlayer()">Remove from squad</button></div>
   </div>
 </aside>
 
@@ -256,7 +290,7 @@ function groupCode(id){
 
 function buildTabs(){
   var t=document.getElementById("tabs");
-  var cats=["ALL","GK","FB","CB","MID","WING","FWD"];
+  var cats=["ALL","GK","FB","CB","MID","WING","FWD","ARCHIVED"];
   t.innerHTML="";
   cats.forEach(function(c){
     var b=document.createElement("div");
@@ -269,12 +303,39 @@ function buildTabs(){
 
 function render(){
   var host=document.getElementById("squad"); host.innerHTML="";
+
+  // ARCHIVED view — show removed players with a Restore button
+  if(filter==="ARCHIVED"){
+    var arch=SEED.filter(function(s){return STATE[s.id]&&STATE[s.id].archived;})
+                 .sort(function(a,b){return a.n-b.n;});
+    var sec=document.createElement("div");sec.className="group";
+    var head=document.createElement("div");head.className="ghead";
+    head.innerHTML='<h2>Archived</h2><span class="gcount">'+pad(arch.length)+' PLAYERS</span>';
+    sec.appendChild(head);
+    if(!arch.length){
+      var empty=document.createElement("div");empty.className="row";empty.style.justifyContent="center";
+      empty.innerHTML='<div class="pname" style="color:var(--muted)">No archived players.</div>';
+      sec.appendChild(empty);
+    } else {
+      arch.forEach(function(s){
+        var r=document.createElement("div");r.className="row";
+        r.innerHTML='<img class="photo" src="'+s.img+'" alt="" onerror="this.style.visibility=\'hidden\'">'+
+          '<div class="pname">'+s.name+'</div>'+
+          '<button class="restoreBtn" onclick="restorePlayer(\''+s.id+'\')">Restore</button>';
+        sec.appendChild(r);
+      });
+    }
+    host.appendChild(sec);
+    document.getElementById("pcount").textContent=arch.length;
+    return;
+  }
+
   var shown=0, anyUnassigned=false;
   var groups=POSGROUPS.concat([["UNASSIGNED","Unassigned"]]);
   groups.forEach(function(g){
     var code=g[0],label=g[1];
     if(filter!=="ALL" && filter!==code) return;
-    var list=SEED.filter(function(s){return groupCode(s.id)===code;})
+    var list=SEED.filter(function(s){return groupCode(s.id)===code && !(STATE[s.id]&&STATE[s.id].archived);})
                  .sort(function(a,b){return a.n-b.n;});
     if(!list.length) return;
     if(code==="UNASSIGNED")anyUnassigned=true;
@@ -302,7 +363,8 @@ function render(){
     });
     host.appendChild(sec);
   });
-  document.getElementById("pcount").textContent=filter==="ALL"?SEED.length:shown;
+  var activeTotal=SEED.filter(function(s){return !(STATE[s.id]&&STATE[s.id].archived);}).length;
+  document.getElementById("pcount").textContent=filter==="ALL"?activeTotal:shown;
 }
 
 /* ---- pitch svg with position dot ---- */
@@ -399,5 +461,69 @@ loadSquad();
 
 <script>
 if('serviceWorker' in navigator){var c="self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('activate',e=>self.clients.claim());self.addEventListener('fetch',e=>{});";var b=new Blob([c],{type:'application/javascript'});navigator.serviceWorker.register(URL.createObjectURL(b)).catch(function(){});}
-</script></body>
+// ---- Restore archived player ----
+function restorePlayer(id){
+  var s=seedById(id);
+  var name=(s&&s.name)||"this player";
+  if(!confirm("Restore "+name+" to the active squad?"))return;
+  var d=Object.assign({},STATE[id]||{});
+  d.archived=false; delete d.archivedAt; d.restoredAt=new Date().toISOString();
+  fetch(SB_URL+"/rest/v1/squad_players?id=eq."+id,{
+    method:"PATCH",
+    headers:Object.assign(apiHeaders(),{"Prefer":"return=minimal"}),
+    body:JSON.stringify({data:d})
+  }).then(function(r){
+    if(!r.ok)throw new Error(r.status);
+    STATE[id]=d; render();
+  }).catch(function(e){
+    alert("Could not restore player ("+e.message+"). Please try again.");
+  });
+}
+
+// ---- Remove player (archive) ----
+function removePlayer(){
+  if(!current)return;
+  var s=seedById(current);
+  var name=(s&&s.name)||"this player";
+  document.getElementById("modalName").textContent=name;
+  document.getElementById("removeModal").classList.add("show");
+}
+function closeRemoveModal(){document.getElementById("removeModal").classList.remove("show");}
+function confirmRemove(){
+  if(!current)return;
+  var pid=current;
+  var btn=document.getElementById("mbRemove");
+  btn.disabled=true; btn.textContent="Removing...";
+  var d=Object.assign({},STATE[pid]||{});
+  d.archived=true; d.archivedAt=new Date().toISOString();
+  fetch(SB_URL+"/rest/v1/squad_players?id=eq."+pid,{
+    method:"PATCH",
+    headers:Object.assign(apiHeaders(),{"Prefer":"return=minimal"}),
+    body:JSON.stringify({data:d})
+  }).then(function(r){
+    if(!r.ok)throw new Error(r.status);
+    STATE[pid]=d;
+    closeRemoveModal();
+    closePanel();
+    render();
+  }).catch(function(e){
+    btn.disabled=false; btn.textContent="Remove player";
+    alert("Could not remove player ("+e.message+"). Please try again.");
+  });
+}
+</script>
+
+<div class="modal-ov" id="removeModal">
+  <div class="modal">
+    <div class="warnicon">&#9888;</div>
+    <h3>Remove player from squad?</h3>
+    <p>You are about to remove <span class="pn" id="modalName">this player</span> from the squad.</p>
+    <p class="sub2">They'll be hidden from all squad lists. Their records are archived, not deleted &mdash; this can be reversed by an admin if needed.</p>
+    <div class="modal-btns">
+      <button class="mb-cancel" onclick="closeRemoveModal()">Cancel</button>
+      <button class="mb-remove" id="mbRemove" onclick="confirmRemove()">Remove player</button>
+    </div>
+  </div>
+</div>
+</body>
 </html>
